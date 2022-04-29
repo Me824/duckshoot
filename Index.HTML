@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		.box{
+            background-size: 100% 100%;
+            width:100px;
+            height:100px;
+            position: absolute;
+		}
+		.score_box{
+			width: 300;
+			height: 100;
+			position: absolute;
+			left: 800;
+			background-color: orange;
+			padding: 10px 20px;
+		}
+		.body{
+			background-image: url(back.jpg); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;
+		}
+	</style>
+</head>
+<body class="body">
+
+	<div class="score_box">
+		<h1>Ваши очки:
+			<span class="text">
+				0
+			</span>
+			/30
+		</h1>
+		<h2>У тебя ксть 20 сек.</h2>
+	</div>
+
+	<script>
+		let text = document.querySelector(".text")
+		let scor = 0
+
+		function getRandom(num){
+			let rand = Math.random() * num;
+			let round = Math.round(rand);
+			return round;
+		}
+
+		let y = [400, 600, 800];
+		let img_url = ["1.png", "2.png", "3.png"];
+
+		function create(){
+			let elem = document.createElement("div");
+			document.body.appendChild(elem);
+			elem.classList.add("box");
+			elem.style.left = getRandom(1600) + "px";
+			elem.style.top = y[getRandom(2)] + "px";
+			let H = getRandom(2);
+			elem.style.backgroundImage = "url(" + img_url[H] + ")";
+
+			if(H == 0){
+                elem.type = "norm";
+            } else if(H == 1){
+                elem.type = "good";
+            } else if(H == 2){
+                elem.type = "bad";
+            }
+
+			elem.onclick = function(){
+				elem.style.display = "none";
+				console.dir(elem)
+				if(elem.type == "norm"){
+                    scor = scor + 1; 
+                    
+                    text.innerHTML = scor
+                } else if(elem.type == "good"){
+                    scor = scor + 2; 
+                    console.log(scor)
+                    text.innerHTML = scor
+                } else if(elem.type == "bad"){
+                    scor = scor - 2;
+                    console.log(scor)
+                    text.innerHTML = scor
+                }
+
+			};
+		}
+
+		 function finish(){
+            clearInterval(int1);
+            alert('конец игры');
+            if(scor >=30){
+                alert("Победа!");
+            }
+            if(scor <=30){
+                alert("Вы проиграли!");
+            }
+        }
+
+         let int1 = setInterval(create, 500);
+        setTimeout(finish, 20000)
+	</script>
+</body>
+</html>
